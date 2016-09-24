@@ -100,7 +100,7 @@ namespace Warden.Integrations.Seq
         /// </summary>
         /// <param name="integrator">Instance of the IIntegrator.</param>
         /// <returns>Instance of fluent builder for the WardenConfiguration.</returns>
-        public static SeqIntegration SeqApi(this IIntegrator integrator)
+        public static SeqIntegration Seq(this IIntegrator integrator)
             => integrator.Resolve<SeqIntegration>();
     }
 }
