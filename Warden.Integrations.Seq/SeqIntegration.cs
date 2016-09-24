@@ -29,10 +29,19 @@ namespace Warden.Integrations.Seq
         {
             if (iteration == null)
                 throw new ArgumentNullException(nameof(iteration), "Warden iteration can not be null.");
-            if (string.IsNullOrWhiteSpace(iteration.WardenName))
-                throw new ArgumentException("Warden name can not be empty.", nameof(iteration.WardenName));
             await _configuration.HttpServiceProvider().PostAsync(_configuration.Uri.ToString(),
-                iteration.ToJson(_configuration.JsonSerializerSettings), _configuration.Headers,
+                iteration.ToSeqJson(_configuration.JsonSerializerSettings), _configuration.Headers,
+                _configuration.FailFast);
+        }
+
+        public async Task PostCheckToSeqAsync(IWardenCheckResult checkResult)
+        {
+            if (checkResult == null)
+            {
+                throw new ArgumentNullException(nameof(checkResult), "Check result can not be null.");
+            }
+            await _configuration.HttpServiceProvider().PostAsync(_configuration.Uri.ToString(),
+                checkResult.ToSeqJson(_configuration.JsonSerializerSettings), _configuration.Headers,
                 _configuration.FailFast);
         }
 

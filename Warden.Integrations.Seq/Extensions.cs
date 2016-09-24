@@ -10,40 +10,55 @@ namespace Warden.Integrations.Seq
     /// </summary>
     public static class Extensions
     {
-        internal static string ToJson(this IWardenIteration data, JsonSerializerSettings serializerSettings)
+        internal static string ToSeqJson(this IWardenIteration data, JsonSerializerSettings serializerSettings)
         {
             var rawData = new {
                 Events = new List<object>()
             };
             foreach (IWardenCheckResult checkResult in data.Results)
             {
-                string messageTemplate = "Watcher {WatcherName} ran with result {Description}";
-                if (checkResult.Exception != null)
-                {
-                    messageTemplate = "Watcher {WatcherName} ran but encountered an exception {Exception}";
-                }
-
-                var @event = new
-                {
-                    Timestamp = checkResult.CompletedAt,
-                    Level = checkResult.IsValid ? "Debug" : "Error",
-                    MessageTemplate = messageTemplate,
-                    Properties = new
-                    {
-                        WatcherName = checkResult.WatcherCheckResult.WatcherName,
-                        Warden = data.WardenName,
-                        WatcherGroup = checkResult.WatcherCheckResult.WatcherGroup,
-                        WatcherType = checkResult.WatcherCheckResult.WatcherType,
-                        Description = checkResult.WatcherCheckResult.Description,
-                        Exception = checkResult.Exception,
-                        StartedAt = checkResult.StartedAt,
-                        CompletedAt = checkResult.CompletedAt,
-                        ExecutionTime = checkResult.ExecutionTime
-                    }
-                };
-
+                var @event = checkResult.ToSeqObject(data.WardenName);
                 rawData.Events.Add(@event);
             }
+            return JsonConvert.SerializeObject(rawData, serializerSettings);
+        }
+
+        internal static object ToSeqObject(this IWardenCheckResult checkResult, string wardenName = null)
+        {
+            string messageTemplate = "Watcher {WatcherName} ran with result {Description}";
+            if (checkResult.Exception != null)
+            {
+                messageTemplate = "Watcher {WatcherName} ran but encountered an exception {Exception}";
+            }
+
+            var @event = new
+            {
+                Timestamp = checkResult.CompletedAt,
+                Level = checkResult.IsValid ? "Debug" : "Error",
+                MessageTemplate = messageTemplate,
+                Properties = new
+                {
+                    WatcherName = checkResult.WatcherCheckResult.WatcherName,
+                    Warden = wardenName,
+                    WatcherGroup = checkResult.WatcherCheckResult.WatcherGroup,
+                    WatcherType = checkResult.WatcherCheckResult.WatcherType,
+                    Description = checkResult.WatcherCheckResult.Description,
+                    Exception = checkResult.Exception,
+                    StartedAt = checkResult.StartedAt,
+                    CompletedAt = checkResult.CompletedAt,
+                    ExecutionTime = checkResult.ExecutionTime
+                }
+            };
+            return @event;
+        }
+
+        internal static string ToSeqJson(this IWardenCheckResult checkResult, JsonSerializerSettings serializerSettings)
+        {
+            var rawData = new
+            {
+                Events = new List<object>()
+            };
+            rawData.Events.Add(checkResult.ToSeqObject());
             return JsonConvert.SerializeObject(rawData, serializerSettings);
         }
 
