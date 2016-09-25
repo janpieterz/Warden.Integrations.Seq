@@ -20,7 +20,8 @@ var wardenConfiguration = WardenConfiguration
   .SetHooks((hooks, integrations) =>
   {
       hooks.OnIterationCompletedAsync(
-          iteration => integrations.SeqApi().PostIterationToSeqAsync(iteration));
+          iteration => integrations.Seq().PostIterationToSeqAsync(iteration));
+      hooks.OnCompletedAsync(check => integrations.Seq().PostCheckToSeqAsync(check));
   })
   .Build();
 ```
