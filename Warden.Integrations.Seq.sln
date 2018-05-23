@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Warden.Integrations.Seq", "Warden.Integrations.Seq\Warden.Integrations.Seq.xproj", "{88A44049-2AE1-4BCC-AE1B-162B38550AF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warden.Integrations.Seq", "Warden.Integrations.Seq\Warden.Integrations.Seq.csproj", "{88A44049-2AE1-4BCC-AE1B-162B38550AF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F34B5FD-AC4D-489C-BC93-A5FCF1B049E3}
 	EndGlobalSection
 EndGlobal
