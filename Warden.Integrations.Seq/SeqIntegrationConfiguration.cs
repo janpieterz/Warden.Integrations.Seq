@@ -13,7 +13,6 @@ namespace Warden.Integrations.Seq
         public static readonly JsonSerializerSettings DefaultJsonSerializerSettings = new JsonSerializerSettings
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            DateFormatString = "yyyy-MM-dd H:mm:ss",
             Formatting = Formatting.Indented,
             DefaultValueHandling = DefaultValueHandling.Populate,
             NullValueHandling = NullValueHandling.Include,
